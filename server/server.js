@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
+const path = require("path");
 const RoomManager = require("./rooms");
 
 const app = express();
@@ -9,8 +10,21 @@ const io = new Server(server);
 
 const rooms = new RoomManager();
 
-app.use(express.static("../client"));
+// =========================
+// Serve static frontend files
+// =========================
 
+// Assuming your 'client' folder is at the root level
+app.use(express.static(path.join(__dirname, "../client")));
+
+// Serve index.html on root route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/index.html"));
+});
+
+// =========================
+// Socket.io logic
+// =========================
 io.on("connection", (socket) => {
   console.log("↗ User connected:", socket.id);
 
@@ -61,5 +75,8 @@ io.on("connection", (socket) => {
   });
 });
 
+// =========================
+// Start server
+// =========================
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(` Server running at http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
