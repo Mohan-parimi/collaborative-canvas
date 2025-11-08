@@ -1,0 +1,13 @@
+{
+  "name": "collaborative-drawing",
+  "version": "1.0.0",
+  "description": "Real-time collaborative drawing board using WebSockets (Socket.io)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.2"
+  }
+}
